@@ -1,0 +1,144 @@
+---
+title: Danica Burwell's Resume"
+author: Danica Burwell
+date: "`r Sys.Date()`"
+output:
+  pagedown::html_resume:
+    css: ['css/custom_resume.css', 'css/styles.css', 'resume']
+    # set it to true for a self-contained HTML page but it'll take longer to render
+    self_contained: true
+---
+
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+library(tidyverse)
+library(glue)
+
+# Set this to true to have links turned into footnotes at the end of the document
+PDF_EXPORT <- FALSE
+
+# Holds all the links that were inserted for placement at the end
+links <- c()
+
+source('parsing_functions.R')
+
+
+# First let's get the data, filtering to only the items tagged as
+# Resume items
+position_data <- read_csv('positions.csv') %>% 
+  filter(in_resume) %>% 
+  mutate(
+    # Build some custom sections by collapsing others
+    section = case_when(
+      section %in% c('research_positions', 'industry_positions') ~ 'positions', 
+      section %in% c('data_science_writings', 'by_me_press') ~ 'strengths',
+      section %in% c('teaching_positions') ~ 'volunteer', 
+      TRUE ~ section
+    )
+  ) 
+
+```
+
+
+Aside
+================================================================================
+
+
+![logo](DB1.png){width=100%}
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+
+
+- <i class="fa fa-envelope"></i> danicaburwell@outlook.com
+- <i class="fa fa-github"></i> github.com/DMBurwell
+- <i class="fa fa-phone"></i> (360) 471-1966
+
+
+
+Language Skills {#skills}
+--------------------------------------------------------------------------------
+
+
+```{r}
+skills <- tribble(
+  ~skill,               ~level,
+  "R",                  2
+)
+build_skill_bars(skills)
+```
+
+
+
+
+
+
+Disclaimer {#disclaimer}
+--------------------------------------------------------------------------------
+
+Made w/ [**pagedown**](https://github.com/rstudio/pagedown). 
+
+Source code: [github.com/DMBurwell/cv](https://github.com/DMBurwell/cv).
+
+Last updated on `r Sys.Date()`.
+
+
+
+
+Main
+================================================================================
+
+Danica Burwell {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+intro_text <- "After studying undergraduate psychology, I have used my interpersonal communication skills over the last decade to serve a large audience in primarily customer service and skilled roles. I am currently seeking a graduate degree, Program Evaluation and Data Analytics, with the goal of seeking new opportunities and advancing my knowledge in areas previously foreign to me. I am a quick learner and enjoy a challenge that require creative thinking and problem solving.
+
+Currently searching for a data analysis position that allows me to use my growing knowledge to extrapolate business-informative facts and figures from raw data. 
+"
+
+
+cat(sanitize_links(intro_text))
+```
+
+
+
+Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('education')
+```
+
+
+
+Selected Positions {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('positions')
+```
+
+Selected Skills {data-icon=clipboard}
+--------------------------------------------------------------------------------
+
+
+```{r}
+position_data %>% print_section('strengths')
+```
+
+
+
+Volunteer Experience {data-icon=newspaper}
+--------------------------------------------------------------------------------
+
+
+```{r}
+position_data %>% print_section('volunteer')
+```
+
