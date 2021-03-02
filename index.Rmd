@@ -55,7 +55,7 @@ Contact {#contact}
 
 
 
-- <i class="fa fa-envelope"></i> danicaburwell@outlook.com
+- <i class="fa fa-envelope"></i> danica.burwell@outlook.com
 - <i class="fa fa-github"></i> github.com/DMBurwell
 - <i class="fa fa-phone"></i> (360) 471-1966
 
